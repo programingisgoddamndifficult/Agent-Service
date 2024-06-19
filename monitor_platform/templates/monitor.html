@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>机器指标监控台</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>机器指标监控台</title>
+    <!-- 引入外部的 JavaScript 文件 -->
+<!--    <script src="script.js"></script>-->
+    <!-- 引入外部的 CSS 文件 -->
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -38,7 +41,13 @@
 </style>
 </head>
 <body>
-    <h1>机器指标监控系统</h1>
+    <h1>机器指标监控台</h1>
+    <!-- 添加输入框和按钮 -->
+    <div>
+        <label for="target-ip">目标设备IP地址：</label>
+        <input type="text" id="target-ip" placeholder="请输入目标设备的IP地址">
+        <button onclick="fetchDeviceInfo()">获取设备信息</button>
+    </div>
     <table>
         <tr>
             <th>指标</th>
@@ -106,4 +115,41 @@
         </tr>
     </table>
 </body>
+
+<script>
+    function fetchDeviceInfo() {
+        var targetIp = document.getElementById("target-ip").value;
+
+        $.ajax({
+            url: 'http://' + targetIp + ':5000/device_info',
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // 在页面上展示设备信息
+                displayDeviceInfo(data);
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+            }
+        });
+    }
+
+    function displayDeviceInfo(deviceInfo) {
+        // 清空表格内容
+        $('#device-info').empty();
+
+        // 动态创建表格行并展示设备信息
+        // ...
+
+        // 示例：展示CPU核数和CPU使用率
+        var cpuCountRow = '<tr><td>CPU核数</td><td>' + deviceInfo.cpu_info.cpu_count + '</td></tr>';
+        var cpuPercentRow = '<tr><td>CPU使用率</td><td>' + deviceInfo.cpu_info.cpu_percent + '</td></tr>';
+
+        $('#device-info').append(cpuCountRow);
+        $('#device-info').append(cpuPercentRow);
+
+        // 展示其他设备信息，根据需要添加相应的行
+        // ...
+    }
+</script>
 </html>
