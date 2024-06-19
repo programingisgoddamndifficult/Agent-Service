@@ -1,4 +1,4 @@
-from flask import Flask, render_template, session, request
+from flask import Flask, render_template, session, request, jsonify
 from flask_session import Session
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -37,6 +37,16 @@ def monitor_info():
     result = machine_info.merge_all_info()
     result["web_monitor"] = monitor_data
     return render_template('monitor.html', **result)
+
+@app.route('/device_info')
+def get_device_info():
+    device_info = machine_info.merge_all_info()
+    return jsonify(device_info)
+
+# 目标设备上运行
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=5000)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
