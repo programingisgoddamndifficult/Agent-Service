@@ -32,12 +32,9 @@ def get_network_interface_info():
         network_interface_info.append({"interface_name":interface,"recv_bytes":str(round(stats.bytes_recv,2))+"B","sent_bytes":str(round(stats.bytes_sent,2))+"B"})
     return network_interface_info
 
-
 def get_disk_info():
     disk_info = []
-
     disk_usage = psutil.disk_usage("C:")
-
     disk_info.append({"partition":"C:","disk_total":str(round(disk_usage.total / (1024.0 ** 3),2))+"GB","disk_used":str(round(disk_usage.used / (1024.0 ** 3),2))+"GB",
                                     "disk_free":str(round((disk_usage.total -disk_usage.used)/(1024.0 ** 3),2))+"GB","disk_percent":str(round(disk_usage.used/disk_usage.total,2))+"%"})
     return disk_info
@@ -45,14 +42,16 @@ def get_disk_info():
 def merge_all_info():
     result = {}
     cpu_info = get_cpu_info()
-    memory_info=get_memory_info()
+    memory_info = get_memory_info()
     network_interface_info = get_network_interface_info()
     disk_info = get_disk_info()
+
     result["cpu_info"] = cpu_info
     result["memory_info"] = memory_info
     result["interface_info"] = network_interface_info
     result["disk_info"] = disk_info
+
     return result
 
-if __name__=="__main__":
+if __name__ == "__main__":
     print(merge_all_info())
