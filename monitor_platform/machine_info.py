@@ -36,7 +36,7 @@ def get_disk_info():
     disk_info = []
     disk_usage = psutil.disk_usage("C:")
     disk_info.append({"partition":"C:","disk_total":str(round(disk_usage.total / (1024.0 ** 3),2))+"GB","disk_used":str(round(disk_usage.used / (1024.0 ** 3),2))+"GB",
-                                    "disk_free":str(round((disk_usage.total -disk_usage.used)/(1024.0 ** 3),2))+"GB","disk_percent":str(round(disk_usage.used/disk_usage.total,2))+"%"})
+                                    "disk_free":str(round((disk_usage.total -disk_usage.used)/(1024.0 ** 3),2))+"GB","disk_percent":str(round((disk_usage.used/disk_usage.total)*100,2))+"%"})
     return disk_info
 
 def merge_all_info():
