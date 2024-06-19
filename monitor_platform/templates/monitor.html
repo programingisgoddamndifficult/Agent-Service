@@ -4,9 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>机器指标监控台</title>
-    <!-- 引入外部的 JavaScript 文件 -->
-<!--    <script src="script.js"></script>-->
-    <!-- 引入外部的 CSS 文件 -->
 <style>
     body {
         font-family: Arial, sans-serif;
@@ -38,6 +35,30 @@
     tr:nth-child(even) {
         background-color: #f2f2f2;
     }
+
+     /* 新增样式，用于进度条 */
+    .progress-bar {
+        width:200px;
+        height: 10px;
+        background-color: #87CEEB;
+        border-radius: 5px;
+        overflow: hidden;
+        dislpay:flex;
+        align-items:center;
+    }
+
+    .progress-bar-inner {
+        height: 100%;
+        background-color: #0000FF;
+        transition: width 0.3s ease-in-out;
+        transform-origin: left center;
+    }
+
+    .progress-bar-label {
+    padding: 0;
+    color: #000;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
@@ -59,12 +80,20 @@
         </tr>
         <tr>
             <td>CPU使用率</td>
-            <td>{{cpu_info.cpu_percent}}</td>
+            <td>
+            <span class="progress-bar-label">{{cpu_info.cpu_percent}}</span>
+            <div class="progress-bar">
+            <div class="progress-bar-inner" style="width: {{cpu_info.cpu_percent}}"></div>
+            </div>
+            </td>
         </tr>
         {% for one_cpu_info in cpu_info.cpu_list_info %}
             <tr>
                 <td>CPU核心{{ loop.index }}（使用率）</td>
-                <td>{{ one_cpu_info['all'] }}</td>
+                <td><span class="progress-bar-label">{{ one_cpu_info['all'] }} </span>
+            <div class="progress-bar">
+            <div class="progress-bar-inner" style="width: {{ one_cpu_info['all'] }} "></div>
+            </div></td>
             </tr>
         {% endfor %}
 
@@ -78,7 +107,10 @@
         </tr>
         <tr>
             <td>内存使用率</td>
-            <td>{{memory_info.percent}}</td>
+            <td><span class="progress-bar-label">{{memory_info.percent}} </span>
+            <div class="progress-bar">
+            <div class="progress-bar-inner" style="width: {{memory_info.percent}} "></div>
+            </div></td>
         </tr>
 
         {% for one_info in disk_info %}
@@ -100,7 +132,10 @@
             </tr>
             <tr>
                 <td>磁盘对应分区使用率</td>
-                <td>{{ one_info['disk_percent'] }}</td>
+                <td><span class="progress-bar-label">{{ one_info['disk_percent'] }} </span>
+            <div class="progress-bar">
+            <div class="progress-bar-inner" style="width: {{ one_info['disk_percent'] }} "></div>
+            </div></td>
             </tr>
         {% endfor %}
 
